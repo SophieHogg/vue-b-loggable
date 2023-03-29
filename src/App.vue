@@ -4,6 +4,7 @@ import Timeline from "./components/Timeline.vue";
 
 <template>
     <div class="section">
+        <h1 class="title is-1 is-primary has-text-centered">B-Loggable</h1>
         <div class="container">
             <Suspense>
                 <template #default>

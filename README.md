@@ -2,6 +2,8 @@
 
 By following along the Udemy course titled "Vue JS 3, The Composition API", I am creating this Vue 3 blog application.
 
+If you would like to run this project on your local machine, please checkout the quickstart.md file.
+
 ## Stack:
 
 -   Typescript
