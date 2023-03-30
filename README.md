@@ -34,3 +34,7 @@ Once the MVP is complete, I would also like to implement:
 ### 29/03/2023
 
 -   Implemented the home screen including the first use of the backend server, loading graphics and state with Pinia
+
+### 30/03/2023
+
+-   Implemented saving of posts, the proper markdown editor and updating it in real time to HTML using two-way routing and debounce.

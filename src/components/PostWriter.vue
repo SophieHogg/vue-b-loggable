@@ -87,7 +87,7 @@ async function handleClick() {
                 contenteditable
                 ref="contentEditable"
                 @input="handleInput"
-                class="max-width-column"
+                class="max-width-column box"
             />
         </div>
         <div class="column entry-col">
