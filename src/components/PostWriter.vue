@@ -1,8 +1,11 @@
 <script setup lang="ts">
 import { TimelinePost } from "../posts";
-import { ref, onMounted, watch, watchEffect } from "vue";
+import { ref, onMounted, watch } from "vue";
+import { useRouter } from "vue-router";
 import { marked } from "marked";
-import { jsxText } from "@babel/types";
+import highlightjs from "highlight.js";
+import debounce from "lodash/debounce";
+import { usePosts } from "../stores/posts";
 
 const props = defineProps<{
     post: TimelinePost;
@@ -11,14 +14,30 @@ const title = ref(props.post.title);
 const content = ref(props.post.markdown);
 const html = ref("");
 const contentEditable = ref<HTMLDivElement>();
+const posts = usePosts();
+const router = useRouter();
+
+function parseHtml(markdown: string) {
+    marked.parse(
+        markdown,
+        {
+            gfm: true,
+            breaks: true,
+            highlight: (code) => {
+                return highlightjs.highlightAuto(code).value;
+            },
+        },
+        (err, parseResult) => {
+            html.value = parseResult;
+        }
+    );
+}
 
 watch(
     content,
-    (newContent) => {
-        marked.parse(newContent, (err, parseResult) => {
-            html.value = parseResult;
-        });
-    },
+    debounce((newContent) => {
+        parseHtml(newContent);
+    }, 250), //stop the html from re-rendering with every single key press - waits 250ms
     { immediate: true }
 );
 
@@ -34,6 +53,17 @@ function handleInput() {
         throw Error("ContentEditable DOM node was not found");
     }
     content.value = contentEditable.value.innerText;
+}
+
+async function handleClick() {
+    const newPost: TimelinePost = {
+        ...props.post,
+        title: title.value,
+        markdown: content.value,
+        html: html.value,
+    };
+    await posts.createPost(newPost);
+    router.push("/");
 }
 </script>
 
@@ -52,11 +82,36 @@ function handleInput() {
         </div>
     </div>
     <div class="columns">
-        <div class="column">
-            <div contenteditable ref="contentEditable" @input="handleInput" />
+        <div class="column entry-col">
+            <div
+                contenteditable
+                ref="contentEditable"
+                @input="handleInput"
+                class="max-width-column"
+            />
         </div>
+        <div class="column entry-col">
+            <div v-html="html" class="max-width-column" />
+        </div>
+    </div>
+    <div class="columns">
         <div class="column">
-            <div v-html="html" />
+            <button
+                class="button is-primary is-pulled-right"
+                @click="handleClick"
+            >
+                Save Post
+            </button>
         </div>
     </div>
 </template>
+
+<style scoped>
+.max-width-column {
+    max-width: 100%;
+    overflow-wrap: break-word;
+}
+.entry-col {
+    max-width: 45%;
+}
+</style>
