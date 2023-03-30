@@ -1,19 +1,13 @@
-<script setup lang="ts">
-import Timeline from "./components/Timeline.vue";
+<script lang="ts" setup>
+import Navbar from "./components/Navbar.vue";
 </script>
 
 <template>
     <div class="section">
-        <h1 class="title is-1 is-primary has-text-centered">B-Loggable</h1>
+        <h1 class="title is-2 is-primary has-text-centered">B-Loggable</h1>
         <div class="container">
-            <Suspense>
-                <template #default>
-                    <Timeline />
-                </template>
-                <template #fallback>
-                    <progress class="progress is-primary is-small" />
-                </template>
-            </Suspense>
+            <Navbar />
+            <RouterView />
         </div>
     </div>
 </template>

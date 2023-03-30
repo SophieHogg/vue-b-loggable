@@ -1,6 +1,6 @@
-<script setup lang="ts">
+<script lang="ts" setup>
+import TimelineItem from "./../components/TimelineItem.vue";
 import { usePosts } from "../stores/posts";
-import TimelineItem from "./TimelineItem.vue";
 import { periods } from "../constants";
 
 const postsStore = usePosts();
@@ -27,5 +27,3 @@ await postsStore.fetchPosts();
         />
     </nav>
 </template>
-
-<style></style>
