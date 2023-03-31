@@ -81,7 +81,7 @@ async function handleClick() {
             </div>
         </div>
     </div>
-    <div class="columns">
+    <div class="columns is-justify-content-center">
         <div class="column entry-col">
             <div
                 contenteditable
@@ -112,6 +112,6 @@ async function handleClick() {
     overflow-wrap: break-word;
 }
 .entry-col {
-    max-width: 45%;
+    max-width: 50%;
 }
 </style>
