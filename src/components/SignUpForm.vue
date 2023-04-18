@@ -1,66 +1,17 @@
 <script lang="ts" setup>
-import { ref, computed } from "vue";
-import FormInput from "./FormInput.vue";
-import { NewUser } from "../users";
-import { validate, length, required } from "../validation";
-import { useUsers } from "../stores/users";
 import { useModal } from "../composables/Modal";
-
-const username = ref("");
-const usernameStatus = computed(() => {
-    return validate(username.value, [required, length({ min: 5, max: 100 })]);
-});
-
-const password = ref("");
-const passwordStatus = computed(() => {
-    return validate(password.value, [required, length({ min: 9, max: 20 })]);
-});
-
-const isInvalid = computed(() => {
-    return !usernameStatus.value.valid || !passwordStatus.value.valid;
-});
+import { useUsers } from "../stores/users";
+import { NewUser } from "../users";
+import UserForm from "./UserForm.vue";
 
 const usersStore = useUsers();
 const modal = useModal();
 
-async function handleSubmit() {
-    if (isInvalid.value) {
-        return;
-    }
-    const newUser: NewUser = {
-        username: username.value,
-        password: password.value,
-    };
-    try {
-        await usersStore.createUser(newUser);
-    } catch (e) {}
+async function handleSignUp(newUser: NewUser) {
+    await usersStore.createUser(newUser);
     modal.hideModal();
 }
 </script>
-
 <template>
-    <form class="form" @submit.prevent="handleSubmit">
-        <FormInput
-            type="text"
-            name="Username"
-            v-model="username"
-            :status="usernameStatus"
-        />
-        <FormInput
-            type="password"
-            name="Password"
-            v-model="password"
-            :status="passwordStatus"
-        />
-        <button class="button is-primary" :disabled="isInvalid">Submit</button>
-    </form>
+    <UserForm @submit="handleSignUp" />
 </template>
-
-<style scoped>
-.form {
-    background-color: white;
-    padding: 30px;
-    margin-top: 40px;
-    border-radius: 10px;
-}
-</style>

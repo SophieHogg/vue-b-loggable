@@ -38,3 +38,10 @@ Once the MVP is complete, I would also like to implement:
 ### 30/03/2023
 
 -   Implemented saving of posts, the proper markdown editor and updating it in real time to HTML using two-way routing and debounce.
+
+### 02/04/2023
+
+-   Implemented logging in and logging out
+-   Implemented ability to add posts only if logged in
+-   Implemented JWTs
+-   Replaced refs to localhost with /api/

@@ -1,6 +1,7 @@
 <script lang="ts" setup>
-import { ref, computed } from "vue";
+import { computed } from "vue";
 import Navbar from "./components/Navbar.vue";
+import { useUsers } from "./stores/users";
 import { useModal } from "./composables/Modal";
 
 const modal = useModal();
@@ -9,8 +10,10 @@ const modalStyle = computed(() => {
         display: modal.show.value ? "block" : "none",
     };
 });
-</script>
+const usersStore = useUsers();
 
+usersStore.authenticate();
+</script>
 <template>
     <div class="modal" style="color: white" :style="modalStyle">
         <div class="modal-background">

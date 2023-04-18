@@ -16,7 +16,6 @@ function handleInput(e: Event) {
     emit("update:modelValue", value);
 }
 </script>
-
 <template>
     <div class="field">
         <label :for="name" class="label">{{ name }}</label>
